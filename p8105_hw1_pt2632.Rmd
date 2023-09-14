@@ -55,8 +55,13 @@ ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) + geo
 ```
 ```{r}
 # Save Figure
-ggsave("./output_figs/HW1_scatterplot.pdf")
+output_dir <- "./output_figs/"
+if(!file.exists(output_dir)){
+  dir.create(file.path(".", output_dir))
+}
+ggsave(paste(output_dir, "HW1_scatterplot.pdf", sep = ""))
 ```
+
 
 **Pattern Description**: 
 
