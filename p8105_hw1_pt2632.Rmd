@@ -1,0 +1,161 @@
+---
+title: "HW1"
+author: "Pei Tian, pt2632"
+date: "9/14/2023"
+output: 
+  html_document:
+    toc: True
+    toc_float: True
+  
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem 1
+
+### Dataset Description
+```{r message = FALSE}
+# Import Library
+library(moderndive)
+library(tidyverse)
+```
+`early_january_weather` is a dataframe of 358 rows representing hourly measurements and 15 variables.
+```{r}
+# Load Data
+data("early_january_weather")
+head(early_january_weather, 5)
+```
+```{r}
+# Variables Name
+colnames(early_january_weather)
+```
+
+```{r}
+# Row Size
+nrow(early_january_weather)
+```
+
+```{r}
+# Column Size
+ncol(early_january_weather)
+```
+
+```{r}
+# Mean Temperature
+mean(pull(early_january_weather, temp))
+```
+
+### Scatterplot
+```{r}
+# scatterplot
+ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) + geom_point() + 
+  ggtitle("Temperature - Time Hour Scatter Plot") + theme(plot.title = element_text(hjust = 0.5))
+```
+```{r}
+# Save Figure
+ggsave("./output_figs/HW1_scatterplot.pdf")
+```
+
+**Pattern Description**: 
+
+- Temperature fluctuates cyclically and generally increases along with time.
+
+- Humidity increases along with time.
+
+- High humidity characteristics often appear at time points with relative high temperature.
+
+## Problem 2
+### Scenario 1
+```{r}
+# Create DateFrame
+sample_data <- rnorm(10)
+
+df <- tibble(
+  vec_numeric = sample_data,
+  vec_logic = sample_data > 0,
+  vec_str = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
+  vec_factor = factor(sample(c(1, 2, 3), 10, replace = TRUE))
+)
+df
+```
+
+```{r}
+# Mean of 'vec_numeric' variable
+mean(pull(df, vec_numeric))
+# Mean of 'vec_logic' variable
+mean(pull(df, vec_logic))
+# Mean of 'vec_str' variable
+mean(pull(df, vec_str))
+# Mean of 'vec_factor' variable
+mean(pull(df, vec_factor))
+```
+
+<hr>
+```{r}
+# Mean of 'vec_logic' variable after convertion
+mean(as.numeric(pull(df, vec_logic)))
+# Mean of 'vec_str' variable after convertion
+mean(as.numeric(pull(df, vec_str)))
+# Mean of 'vec_factor' variable after convertion
+mean(as.numeric(pull(df, vec_factor)))
+```
+
+### Scenario 2
+```{r}
+# Create DateFrame
+sample_data <- rnorm(10)
+
+df <- tibble(
+  vec_numeric = sample_data,
+  vec_logic = sample_data > 0,
+  vec_str = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+  vec_factor = factor(sample(c("A", "B", "C"), 10, replace = TRUE))
+)
+df
+```
+
+```{r}
+# Mean of 'vec_numeric' variable
+mean(pull(df, vec_numeric))
+# Mean of 'vec_logic' variable
+mean(pull(df, vec_logic))
+# Mean of 'vec_str' variable
+mean(pull(df, vec_str))
+# Mean of 'vec_factor' variable
+mean(pull(df, vec_factor))
+```
+<hr>
+
+```{r}
+# Mean of 'vec_logic' variable after convertion
+mean(as.numeric(pull(df, vec_logic)))
+# Mean of 'vec_str' variable after convertion
+mean(as.numeric(pull(df, vec_str)))
+# Mean of 'vec_factor' variable after convertion
+mean(as.numeric(pull(df, vec_factor)))
+```
+
+
+### Result and Analysis
+**Result: ** 
+
+- The mean of numeric and logical variables could be successfully calculated, while those of character and factor variables couldn't be calculated (return `NA`).
+
+- After coercive convertion with `as.numeric`, the logical and factor variables become compatiable to calculate mean, while character variable only become compatiable to calculate mean when every element of this variable just consists of digit, otherwise `NA` would be returned. 
+
+**Explanation: **
+
+- Mean calculation could only be applied to numeric and logical variables naturally. Because numeric variable only includes numbers which are compatiable to arithmetic calculation, while logical variable could be automatically converted to 0 or 1 according to boolean value.
+
+- With `as.numeric` function, logical variable could be coercively converted to 0 or 1 according to boolean value. This leads to no difference of mean calculation result. 
+
+- With `as.numeric` function, factor variable could be coercively converted to natural numbers (0, 1, 2,...) according to the lexicographic order of levels, which makes the variable compatiable to numeric calculation.
+
+- With `as.numeric` function, character variable could be coercively converted to numeric values only when every element of this variable just consists of digit, which is compatiable to arithmetic calculation. Otherwise, the convertion process returns `NA`, whose result of any arithmetic calculation is still `NA`.
+
+
+**Conclusion: **
+
+When trying to apply arithmetic calculation like mean calculation to variables, the result will be entirely different according to the variable type. With `as.numeric` function which is able to coercively converted different value to numeric value, logical and factor variables will be compatiable to arithmetic calculation after convertion. Meanwhile, for character variables, only those consisting of digit could be converted to numeric values, otherwise `NA` returns .
