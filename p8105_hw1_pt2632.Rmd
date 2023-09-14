@@ -3,6 +3,7 @@ title: "HW1"
 author: "Pei Tian, pt2632"
 date: "9/14/2023"
 output: 
+  github_document:
   html_document:
     toc: True
     toc_float: True
