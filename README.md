@@ -4,7 +4,8 @@ Homework Repo for Data Science Course (P8105 in Columbia University)
 **Instructor**: Prof. Jeff Goldsmith
 ## Contents
 <details>
-  <summary>Problems</summary>
+  <summary>HW1</summary>
+  
   1. Git and GitHub Repo
   
   2. Code Styling
