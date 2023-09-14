@@ -138,6 +138,7 @@ mean(as.numeric(pull(df, vec_factor)))
 ```
 
 
+
 ### Result and Analysis
 **Result: ** 
 
